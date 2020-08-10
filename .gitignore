@@ -1,0 +1,8 @@
+.env
+*.log
+*.pot
+*.pyc
+__pycache__/
+media/*
+node_modules/
+settings/local.py

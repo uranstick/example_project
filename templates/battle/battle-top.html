@@ -1,0 +1,145 @@
+{% load staticfiles i18n %}
+<div class="battle-header row">
+    <div class="battle-header__side">
+        <a href="{% url 'military' pk=attacker.pk %}" class="battle-header__link">
+            {% if battle.rebellion and attacker == battle.attacker %}
+                {% trans "Rebellion force of" %}
+            {% endif %}
+            {{ attacker }}
+        </a>
+    </div>
+    <div class="battle-header__sector">
+        <a href="{% url 'sector' pk=battle.sector.pk %}" class="battle-header__link">
+            {{ battle.sector|truncatechars:35 }}
+        </a>
+    </div>
+    <div class="battle-header__side">
+        <a href="{% url 'military' pk=defender.pk %}" class="battle-header__link">
+            {% if battle.rebellion and defender == battle.attacker %}
+                {% trans "Rebellion force of" %}
+            {% endif %}
+            {{ defender }}
+        </a>
+    </div>
+</div>
+<div class="battle-wall row">
+    <div class="battle-wall__points battle-points">
+        <div class="battle-points__wrapper _attacker" {% comment %}
+            style="background-color: {{ attacker.get_color }}; box-shadow: 0 0 5px {{ attacker.get_color }};"
+        {% endcomment %}></div>
+        <div class="battle-points__points">
+            {{ attacker_total_points }}
+        </div>
+    </div>
+    <div class="battle-wall__wall text-center">
+        <div class="battle-wall__attacker" style="width: {{ attacker_total_wall }}%;">
+            <span>
+                {{ attacker_total_wall }}%
+            </span>
+        </div>
+        <div class="battle-wall__clash">
+            &nbsp
+        </div>
+        <div class="battle-wall__defender" style="width: {{ defender_total_wall_percent }}%;">
+            <span>
+                {{ defender_total_wall }}%
+            </span>
+        </div>
+    </div>
+    <div class="battle-wall__points battle-points">
+        <div class="battle-points__wrapper _defender" {% comment %}
+            style="background-color: {{ defender.get_color }}; box-shadow: 0 0 5px {{ defender.get_color }};"
+        {% endcomment %}></div>
+        <div class="battle-points__points">
+            {{ defender_total_points }}
+        </div>
+    </div>
+</div>
+{% if battle.is_active %}
+<div class="battle-sides row">
+    <div class="battle-sides__side battle-side _attacker">
+        <div class="battle-side__country">
+            <a href="{% url 'military' pk=attacker.pk %}">
+                <img class="battle-side__flag" src="{{ attacker.get_img }}" alt="">
+            </a>
+        </div>
+        {% if battle.battle and attacker_allies %}
+        <ul class="battle-side__allies">
+            {% for ally in attacker_allies %}
+            <li>
+                <img class="battle-side__ally" data-toggle="tooltip" data-placement="top" title="{{ ally }}" src="{{ ally.get_img }}">
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div class="battle-sides__stats battle-stats row">
+        <div class="battle-stats__timer col-6 col-mob-6">
+            <svg class="icon small-img">
+                <use xlink:href="/dist/images/sprite.svg#clock"></use>
+            </svg>
+            <span class="active-timer" data-timer="{{ time }}"></span>
+        </div>
+        <div
+            class="col-2 col-mob-2 pointer active-damage-statistics-open"
+            data-battle="{{ battle.id }}" data-toggle="tooltip" data-placement="bottom"
+            title="{% trans "Statistics" %}"
+        >
+            <img class="small-img" src="{% static 'images/military/statistics.png' %}"
+        >
+        </div>
+        <div
+            class="col-2 col-mob-2 pointer active-countries-statistics-open"
+            data-battle="{{ battle.id }}" data-toggle="tooltip" data-placement="bottom"
+            title="{% trans "Allies statistics" %}"
+        >
+            <img class="small-img" src="{% static 'images/main/rankings.png' %}"
+        >
+        </div>
+        <div
+            class="col-2 col-mob-2 pointer active-medals-statistics-open"
+            data-battle="{{ battle.id }}"
+            data-wing="{{ wing }}" data-toggle="tooltip" data-placement="bottom"
+            title="{% trans "Medals" %}"
+        >
+            <img class="small-img" src='{% static "images/medals/ace.png" %}'>
+        </div>
+    </div>
+    <div class="battle-sides__side battle-side _defender">
+        <div class="battle-side__country">
+            <a href="{% url 'military' pk=defender.pk %}">
+                <img class="battle-side__flag" src="{{ defender.get_img }}" alt="">
+            </a>
+        </div>
+        {% if battle.battle and defender_allies %}
+        <ul class="battle-side__allies">
+            {% for ally in defender_allies %}
+            <li>
+                <img class="battle-side__ally" data-toggle="tooltip" data-placement="top" title="{{ ally }}" src="{{ ally.get_img }}">
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+{% if battle.rebellion and not side %}
+<div class="rebellion-header row top-buffer">
+    <div class="rebellion-header__side col-3 col-mob-5">
+        <a href="{% url 'battle' pk=battle.id side=1 %}">
+            <button class="rebellion-header__button button _red">
+                {% trans "Join rebellion force" %}
+            </button>
+        </a>
+    </div>
+    <div class="battle-header__link col-6 col-mob-2 text-center">
+    </div>
+    <div class="rebellion-header__side col-3 col-mob-5">
+        <a href="{% url 'battle' pk=battle.id side=2 %}">
+            <button class="rebellion-header__button button _blue">
+                {% trans "Join" %} {{ battle.defender }}
+            </button>
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endif %}

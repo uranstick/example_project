@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% load staticfiles i18n %}
+{% block title %}
+{% trans "Battle" %} - StarRepublik
+{% endblock %}
+{% block description %}
+<meta name="description" content="Battle of {{ battle.attacker.name }} vs {{ battle.defender.name }} for {{ battle.sector }}!">
+{% endblock description %}
+{% block main_content %}
+<div class="battle col">
+    {% if battle.is_active %}
+    {% include "battle/battle-top.html" %}
+    {% include "battle/battlefield.html" %}
+    {% include "battle/battle-form.html" %}
+    {% else %}
+    {% include "battle/battle-top-closed.html" %}
+    {% include "battle/battlefield-closed.html" %}
+    {% endif %}
+</div>
+{% endblock main_content %}
+{% block scripts %}
+<script src="{% static 'js/battle.js' %}"></script>
+{% endblock scripts %}
