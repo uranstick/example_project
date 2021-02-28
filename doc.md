@@ -1,32 +1,41 @@
 # Update transaction status
+
 **URL**
+
 /api/dashboard/transactions/
+
 **Method**
+
 POST
+
 **Request example**
+
 ```json
 {
     "transactions": [
-        1, 2, 3, ...
+        1, 2, 3
     ],
-    "status": "BATCHING" | "COINS_SENT" | "COMPLETE" | "DUPLICATE"
+    "status": "BATCHING"
 }
 ```
+Valid options for status: ["BATCHING", "COINS_SENT", "COMPLETE", "DUPLICATE"]
 
 # Transactions list
 
 **URL**
+
 /api/dashboard/transactions/
 
 **Method**
+
 GET
 
 **URL Params**
-*Optional*
+
 Param | Description
 --- | --- 
 page | page of results to return, 1000 transactions per page
-status | filter transactions by status
+status | filter transactions by status, might be one of the following ["RECEIVED", "BATCHING", "SENT_TO_WALLET", "COINS_SENT", "COMPLETE", "DUPLICATE"]
 address | filter transactions by address
 internal_transaction_id | filter transactions by internal_transaction_id
 blockchain_transaction_id | filter transactions by blockchain_transaction_id
@@ -39,6 +48,7 @@ updated__lt | filter transactions with updated datetime lower than value, date f
 updated__gt | filter transactions with updated datetime greater than value, date format '%Y-%m-%d %H:%M:%S'
 
 **Response**
+
 ```json
 {
     "count":1000,
@@ -61,13 +71,17 @@ updated__gt | filter transactions with updated datetime greater than value, date
 ]
 ```
 # Transaction detail
+
 **URL**
+
 /api/dashboard/transactions/{id}
 
 **Method**
+
 GET
 
 **Response**
+
 ```json
 {
     "id":5,
