@@ -66,9 +66,9 @@ updated__gt | filter transactions with updated datetime greater than value, date
             "internal_transaction_id":"luxtlxrkfllff0g3qvtkv317vn7e3yxxv1zwx7n1uyxce57x8zhyqur4tm0jfue8",
             "status":"COMPLETE"
         },
-        ...
+        // ...
     ]
-]
+}
 ```
 # Transaction detail
 
